@@ -1,0 +1,20 @@
+/*
+Scenario: Extract subscribers with Hard Bounces in the last 30 days for Suppression List.
+Concept: INNER JOIN on _Subscribers, filtering BounceCategory, and deduplicating via GROUP BY.
+*/
+
+
+Query-----------------
+SELECT
+b.SubscriberKey,
+b.BounceCategory,
+sk.EmailAddress,
+MAX(b.EventDate) as LastSentDate
+FROM _Bounce AS b
+INNER JOIN _Subscribers as sk
+ON b.SubscriberKey = sk.SubscriberKey
+AND b.BounceCategory = 'Hard Bounce'
+WHERE b.EventDate >= DATEADD(DAY, -30, GETDATE())
+GROUP BY
+b.SubscriberKey,
+sk.Emailaddress;
