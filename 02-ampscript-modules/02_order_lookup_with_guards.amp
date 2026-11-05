@@ -16,3 +16,21 @@ SET @orderNum = "None"
 SET @orderAmt = 0
 ENDIF
 ]%%
+********************************************************************************
+
+Check the Susbcribers subscription for check renwal Date and Plan name
+
+
+%%[
+VAR @subKey, @row, @rows, @rowCount, @planName, @expiryDate
+SET @subKey = AttributeValue("SubscriberKey")
+SET @rows = LOOKUPROWS("Subscription_DE", "SubscriberKey", @subKey)
+SET @rowCount = ROWCOUNT(@rows)
+IF @rowcCount > 0 THEN
+SET @row = Row(@rows, 1)
+SET @planName = Field(@row, "PlanName")
+SET @expiryDate = Field(@row, "ExpiryDate")
+ELSE
+SET @planName = "None"
+SET @ExpiryDate = "None"
+]%%
