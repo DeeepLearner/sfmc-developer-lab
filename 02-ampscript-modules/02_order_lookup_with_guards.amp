@@ -1,0 +1,18 @@
+02_order_lookup_with_guards
+
+We have to show Order number and order amount to the targeted or sendable customers. So pull the specific data of Rowset by Using LOOKUPROWS.
+
+%%[
+VAR @subkey, @orderNum, @orderAmt, @rowCount, @rows, @row
+SET @subKey = AttributeValue("SubscriberKey")
+SET @rows = LOOKUPROWS("Order_DE", "Subscriberkey", @subKey)
+SET @rowCount = ROWCOUNT(@rows)
+IF @rowCount > 0 THEN
+SET @row = Row(@rows, 1)
+SET @orderNum = Field(@row, "OrderNumber")
+SET @orderAmt = Field(@row, "OrderAmt")
+ELSE
+SET @orderNum = "None"
+SET @orderAmt = 0
+ENDIF
+]%%
