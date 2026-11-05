@@ -1,0 +1,18 @@
+/*
+Scenario: Dynamic Member Greeting & Account Status Display.
+Platform: The AMPscript Lab / Email Studio Content Builder.
+Concept: Variable declaration, AttributeValue retrieval, conditional branching.
+*/
+
+%%[
+VAR @status, @message, @firstname, @lastname, @statusvar
+SET @firstname = AttributeValue("FirstName")
+SET @status = AttributeValue("Status")
+IF @status == 'Active' THEN
+SET @message = "Welcome Back"
+SET @statusvar = 'Activated'
+ELSE
+SET @message = "Please Re-activate your account"
+SET @statusvar = 'De-Activated'
+ENDIF
+]%%
