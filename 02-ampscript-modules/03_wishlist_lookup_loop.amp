@@ -20,6 +20,32 @@ ENDIF
 ]%%
 ***************************************************************************************************************************
 
+Print Abndoned Cart Items For Subscribers
+
+Query:-------------------------
+
+
+%%[
+VAR @subKey, @row, @rows, @rowCount, @i, @cartItem, @itemPrice
+SET @subKey = Attributevalue("SubscriberKey")
+SET @rows = LOOKUPROWS("Abandoned_Cart_DE", "SubscriberKey", @subKey)
+SET @rowCount = ROWCOUNT(@rows)
+IF @rowCount > 0 THEN
+OUTPUT(CONCAT("<p> Your Cart Items :</p><ul>"))
+FOR @i = 1 TO @rowCount DO
+SET @row = Row(@rows, @i)
+SET @cartItem = Field(@row, "Cart_Item")
+SET @itemPrice = Field(@row, "Price")
+OUTPUT(CONCAT("<li>", @cartItem, "- ", @itemPrice, "</li>"))
+NEXT @i
+OUTPUT("</ul>")
+ELSE
+OUTPUT("<p> Your Cart is Empty </p>")
+ENDIF
+]%%
+
+
+
 Query:- Show the enrolled courses by the Subscribers Using LOOKUPROWS and IF ELSE and FOR LOOP
 
 %%[
