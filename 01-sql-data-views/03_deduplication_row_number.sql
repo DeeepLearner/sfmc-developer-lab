@@ -12,12 +12,8 @@ SELECT
 SubscriberKey,
 DeviceType,
 LoginTime,
-ROW_NUMBER() OVER (
-PARTITION BY SubscriberKey
-ORDER BY LoginTime
-DESC) AS RowNum
-FROM Customer_Logins
-)AS c
+ROW_NUMBER() OVER (PARTITION BY SubscriberKey ORDER BY LoginTime DESC) AS RowNum
+FROM Customer_Logins )AS c
 WHERE c.RowNum = 1
 *************************************************************************************************************************************************
 
@@ -34,8 +30,7 @@ SELECT SubscriberKey,
 OrderNumber,
 OrderAmount,
 ROW_NUMBER() OVER (PARTITION BY SubscriberKey ORDER BY OrderAmount DESC) AS RowNum
-FROM Customer_Orders
-) as x
+FROM Customer_Orders ) as x
 WHERE x.Rownum = 1
 *****************************************************************************************************************************************
 
@@ -52,6 +47,5 @@ SELECT SubscriberKey,
 OrderNumber,
 OrderAmount,
 ROW_NUMBER() OVER (PARTITION BY SubscriberKey ORDER BY OrderAmount DESC, OrderDate DESC) AS RowNum
-FROM Customer_Orders
-) as x
+FROM Customer_Orders ) as x
 WHERE x.Rownum = 1
