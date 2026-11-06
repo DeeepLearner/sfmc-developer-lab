@@ -1,0 +1,29 @@
+/* Transactional Order confirmation Email:- If order amount blank or total order blank, then skip the email for specific Subscriber by using RaiseError()*/
+%%[
+    VAR @orderId, @orderTotal
+
+    SET @orderId = AttributeValue("OrderID")
+    SET @orderTotal = AttributeValue("OrderTotal")
+
+    /* Agar OrderID ya OrderTotal missing ho toh email skip karo */
+    IF Empty(@orderId) OR Empty(@orderTotal) THEN
+        RaiseError("Missing critical order details, skipping send.", true)
+    ENDIF
+]%%
+
+<p>Thank you for your order #%%=v(@orderId)=%%. Your total is $%%=v(@orderTotal)=%%.</p>
+*********************************************************************************************************************************************************************
+
+/* Send a flight booking confirmation mail, IF booking details missing like (PNR) then skip sending Email, by using RaiseError() */
+
+%%[
+    VAR @pnr
+
+    SET @pnr = AttributeValue("BookingReference")
+
+    IF Empty(@pnr) THEN
+        RaiseError("PNR Missing, Email Skipped", true)
+    ENDIF
+]%%
+
+*************************************************************************************************************************************************************
