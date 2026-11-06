@@ -1,0 +1,43 @@
+03_wishlist_lookup_loop
+
+
+Need to send customer wishlist EMail
+
+%%[
+VAR @subKey, @row, @rows, @rowCount, @i, @itemName
+SET @subKey = AttributeValue("SubscriberKey")
+SET @rows = LOOKUPROWS("Wishlist_DE", "SubscriberKey", @subKey)
+SET @rowCount = RowCount(@rows)
+IF @rowCount > 0 THEN
+FOR @i = 1 TO @rowCount DO
+SET @row = Row(@rows, @i)
+SET @itemName = Field(@row, "ItemName")
+OUTPUT(CONCAT("<li>", @ItemName, "</li>"))
+NEXT @i
+ELSE
+OUTPUT(CONCAT("<p> Your Wishlist is Empty </p>"))
+ENDIF
+]%%
+***************************************************************************************************************************
+
+Query:- Show the enrolled courses by the Subscribers Using LOOKUPROWS and IF ELSE and FOR LOOP
+
+%%[
+VAR @subKey, @row, @rows, @rowCount, @i, @courseTitle
+SET @subKey = AttributeValue("SubscriberKey")
+SET @rows = LOOKUPROWS("Course_Enrollments", "SubscriberKey", @subKey)
+SET @rowCount = ROWCOUNT(@rows)
+IF @rowCount > 0 THEN
+OUTPUT(CONCAT("<p><strong> Your Enrolled Course are: </strong> </p><ul>"))
+FOR @i = 1 TO @rowcount DO
+SET @row = Row(@rows, @i)
+SET @courseTitle = Field(@row, "CourseTitle")
+OUTPUT(CONCAT("<li>" @courseTitle "</li>"))
+NEXT @i
+ELSE
+OUTPUT(CONCAT("</ul>"))
+ENDIF
+OUTPUT(CONCAT("<p> Your are not Enrolled any Course. </p>" ))
+]%%
+
+*****************************************************************************************************************************
